@@ -1107,6 +1107,18 @@ namespace IVSDKDotNet
 				NativeInvoke::Invoke< ScriptVoid>(eNativeHash::NATIVE_GET_POSITION_OF_CAR_RECORDING_AT_TIME, CarRec, time, &p);
 				pos = p;
 			}
+			static void GET_CURRENT_STATION_FOR_TRAIN(Vehicle train, [OutAttribute] int% station)
+			{
+				int p;
+				NativeInvoke::Invoke< ScriptVoid>(eNativeHash::NATIVE_GET_CURRENT_STATION_FOR_TRAIN, train, &p);
+				station = p;
+			}
+			static void GET_NEXT_STATION_FOR_TRAIN(Vehicle train, [OutAttribute] int% station)
+			{
+				int p;
+				NativeInvoke::Invoke< ScriptVoid>(eNativeHash::NATIVE_GET_NEXT_STATION_FOR_TRAIN, train, &p);
+				station = p;
+			}
 			static void GET_TRAIN_CABOOSE(Vehicle train, [OutAttribute] Vehicle% caboose)
 			{
 				Vehicle p;
@@ -1124,6 +1136,12 @@ namespace IVSDKDotNet
 				int p;
 				NativeInvoke::Invoke< ScriptVoid>(eNativeHash::NATIVE_GET_TRAIN_PLAYER_WOULD_ENTER, player, &p);
 				train = p;
+			}
+			static void FIND_TRAIN_DIRECTION(Vehicle train, [OutAttribute] int% direction)
+			{
+				int p;
+				NativeInvoke::Invoke< ScriptVoid>(eNativeHash::NATIVE_FIND_TRAIN_DIRECTION, train, &p);
+				direction = p;
 			}
 			static bool GET_VEHICLE_COMPONENT_INFO(Vehicle veh, int component_id, [OutAttribute] Vector3% unkVec1, [OutAttribute] Vector3% unkVec2, bool unkFlag)
 			{
@@ -5229,7 +5247,6 @@ namespace IVSDKDotNet
 				pRetHeading = h;
 				return r;
 			}
-			
 			static b8 GET_RANDOM_WATER_NODE(Vector3 pos, float pRadius, b8 flag0, b8 flag1, b8 flag2, b8 flag3, [OutAttribute] Vector3% pResult, [OutAttribute] float% pRetHeading)
 			{
 				float x, y, z, h;
@@ -5248,26 +5265,25 @@ namespace IVSDKDotNet
 				pRetHeading = h;
 				return r;
 			}
-			
-			static b8 GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING(Vector3 pos, b8 flag0, b8 flag1, [OutAttribute] Vector3% pResult, [OutAttribute] float% pHeading)
+			static b8 GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING(Vector3 pos, b8 flag0, b8 flag1, [OutAttribute] Vector4% pResult, [OutAttribute] float% pHeading)
 			{
-				float x, y, z, h;
-				b8 r = NativeInvoke::Invoke< b8>(eNativeHash::NATIVE_GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING, pos.X, pos.Y, pos.Z, flag0, flag1, &x, &y, &z, &h);
-				pResult = Vector3(x, y, z);
+				float x, y, z, w, h;
+				b8 r = NativeInvoke::Invoke< b8>(eNativeHash::NATIVE_GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING, pos.X, pos.Y, pos.Z, flag0, flag1, &x, &y, &z, &w, &h);
+				pResult = Vector4(x, y, z, w);
 				pHeading = h;
 				return r;
 			}
-			static b8 GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING(float pX, float pY, float pZ, b8 flag0, b8 flag1, [OutAttribute] float% pResX, [OutAttribute] float% pResY, [OutAttribute] float% pResZ, [OutAttribute] float% pHeading)
+			static b8 GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING(float pX, float pY, float pZ, b8 flag0, b8 flag1, [OutAttribute] float% pResX, [OutAttribute] float% pResY, [OutAttribute] float% pResZ, [OutAttribute] float% pResW, [OutAttribute] float% pHeading)
 			{
-				float x, y, z, h;
-				b8 r = NativeInvoke::Invoke< b8>(eNativeHash::NATIVE_GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING, pX, pY, pZ, flag0, flag1, &x, &y, &z, &h);
+				float x, y, z, w, h;
+				b8 r = NativeInvoke::Invoke< b8>(eNativeHash::NATIVE_GET_NTH_CLOSEST_WATER_NODE_WITH_HEADING, pX, pY, pZ, flag0, flag1, &x, &y, &z, &w, &h);
 				pResX = x;
 				pResY = y;
 				pResZ = z;
+				pResW = w;
 				pHeading = h;
 				return r;
 			}
-
 			static b8 GET_SAFE_POSITION_FOR_CHAR(Vector3 pos, b8 onGround, [OutAttribute] Vector3% pResult)
 			{
 				float x, y, z;
